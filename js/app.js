@@ -4,18 +4,14 @@ if (localStorage.getItem('csvData') == null) {
 	xhttp.send();
 	if (xhttp.status === 200) {
 		var csvData = xhttp.responseText;
-		console.log('ye');
 		localStorage.setItem('csvData', csvData);
 	} else {
 		document.getElementById('noti').innerHTML = 'ĐÃ XẢY RA LỖI, VUI LÒNG THỬ LẠI';
 	}
 } else {
 	var csvData = localStorage.getItem('csvData');
-	console.log('hihi')
 }
 
-
-// Thay thế tên bộ môn GDTC và thực hành tại PKĐK
 let csvData11, csvData12 = ''
 while ((csvData.includes('GDTC_')) || (csvData.includes('PKĐK')) || (csvData.includes(', '))) {
     if (csvData.includes('GDTC_')) {
@@ -33,7 +29,6 @@ csvData12 = csvData.slice(csvData.lastIndexOf('HUPH'), csvData.lastIndexOf('CKI'
 csvData12 = csvData12.slice(csvData12.indexOf('HUPH'), csvData12.indexOf('CKI'));
 
 csvData = csvData11 + csvData12
-
 // csvData = csvData.replace(/\r?\n|\r/g, '').split('HUPH');
 csvData = csvData.split('HUPH');
 
@@ -93,29 +88,31 @@ function fill(a) {
 
 function exportData(lop) {
 	if (lop.length > 0) {
-		var dow = [0,1,2,3,4,5,6], dayofweek = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7','Chủ nhật']
+		var dow = [0,1,2,3,4,5,6], dayofweek = ['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7']
 		var result = []
 
 		for (var i of slist) {
-			for (var j in dow) {
+			for (var j of dow) {
 				var tn, nd, b, gd = '';
 				var sang = i[1][j].includes(lop), chieu = i[2][j].includes(lop), toi = i[3][j].includes(lop);
+				if (j > 6) {
+					tn = 0;
+				} else {
+					tn = j + 1;
+				}
 				if (sang) {
-					tn = j;
 					b = 'Sáng';
 					gd = i[0];
 					nd = fill(i[1][j]);
 					result.push([tn, b, gd, nd])
 				}
 				if (chieu) {
-					tn = j;
 					b = 'Chiều';
 					gd = i[0];
 					nd = fill(i[2][j]);
 					result.push([tn, b, gd, nd])
 				}
 				if (toi) {
-					tn = j;
 					b = 'Tối';
 					gd = i[0];
 					nd = fill(i[3][j]);
@@ -125,31 +122,47 @@ function exportData(lop) {
 		}
 
 		if (result.length == 0) {
-			document.getElementById('noti').innerHTML = 'Tuần này bạn không có lịch học, quẩy thôi 😆';
+			document.getElementById('noti').innerHTML = 'Bạn hiện không có lịch học, quẩy thôi 😆';
 			document.getElementById('result').innerHTML = '';
 		} else {
 			result.sort(function (a,b) {
 				return a[0] - b[0];
 			})
-
-			let html = ''
+			let html = '';
 			var colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info'], check = [];
 			var color;
+			const d = new Date();
+			let day = d.getDay();
 			for (let i of result) {
 				color = randomColor(colors);
-				html += `
-					<div class="d-flex align-items-center border-bottom py-3 alert alert-${color}">
-						<div class="w-100 ms-3">
-							<div class="d-flex w-100 justify-content-between">
-								<h3 class="mb-0">${i[1]} ${dayofweek[i[0]]}</h3>
-								<small style="margin-right: 1rem;">Giảng đường <h3>${i[2]}</h3></small>
+				console.log(i[0] == day)
+				if ((document.querySelector('input[name="radioOption"]:checked').value == '0') && (i[0] == day)) {
+					html += `
+						<div class="d-flex align-items-center border-bottom py-3 alert alert-${color}">
+							<div class="w-100 ms-3">
+								<div class="d-flex w-100 justify-content-between">
+									<h3 class="mb-0">${i[1]} ${dayofweek[i[0]]}</h3>
+									<small style="margin-right: 1rem;">Giảng đường <h3>${i[2]}</h3></small>
+								</div>
+								<span>${i[3]}</span>
 							</div>
-							<span>${i[3]}</span>
 						</div>
-					</div>
-				`
+					`
+				} else if (document.querySelector('input[name="radioOption"]:checked').value == '1') {
+					html += `
+						<div class="d-flex align-items-center border-bottom py-3 alert alert-${color}">
+							<div class="w-100 ms-3">
+								<div class="d-flex w-100 justify-content-between">
+									<h3 class="mb-0">${i[1]} ${dayofweek[i[0]]}</h3>
+									<small style="margin-right: 1rem;">Giảng đường <h3>${i[2]}</h3></small>
+								</div>
+								<span>${i[3]}</span>
+							</div>
+						</div>
+					`	
+				}
 			}
-			document.getElementById('noti').innerHTML = 'Đây là TKB trong tuần của bạn';
+			document.getElementById('noti').innerHTML = 'Dưới đây là Lịch học của bạn'
 			document.getElementById('result').innerHTML = html;
 		}
 	}
