@@ -1,0 +1,21 @@
+{
+    "name": "myHUPH Schedule",
+    "short_name": "myHUPH",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "description": "myHUPH Schedule by ITC",
+    "theme_color": "#ffffff",
+    "icons": [
+      {
+        "src": "./img/icon.jpg",
+        "sizes": "578x578",
+        "type": "image/jpg"
+      },
+      {
+        "src": "./img/bg.png",
+        "sizes": "1200x600",
+        "type": "image/png"
+      }
+    ]
+  }
