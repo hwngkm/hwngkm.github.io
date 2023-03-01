@@ -23,24 +23,18 @@ while ((csvData.includes('GDTC_')) || (csvData.includes('PKĐK')) || (csvData.in
     }
 }
 
-// Cắt chuỗi
 csvData11 = csvData.slice(csvData.indexOf('HUPH'), csvData.lastIndexOf('HUPH'));
 csvData12 = csvData.slice(csvData.lastIndexOf('HUPH'), csvData.lastIndexOf('CKI'));
 csvData12 = csvData12.slice(csvData12.indexOf('HUPH'), csvData12.indexOf('CKI'));
 
 csvData = csvData11 + csvData12
-// csvData = csvData.replace(/\r?\n|\r/g, '').split('HUPH');
 csvData = csvData.split('HUPH');
-
-// =====================
 var count = 1;
 var slist = new Array()
-// =====================
 
 while (count < csvData.length) {
 	var sublist = new Array()
 	var csvData2 = csvData[count].split(',')
-	// console.log(csvData2)
 	for (var i of csvData2) {
 		sublist.push(i)
 	}
