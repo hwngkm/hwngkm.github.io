@@ -135,7 +135,6 @@ function exportData(lop) {
 			let day = d.getDay();
 			for (let i of result) {
 				color = randomColor(colors);
-				console.log(i[0] == day)
 				if ((document.querySelector('input[name="radioOption"]:checked').value == '0') && (i[0] == day)) {
 					html += `
 						<div class="d-flex align-items-center border-bottom py-3 alert alert-${color}">
