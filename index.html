@@ -50,16 +50,39 @@
 			<!-- Navbar Start -->
 			<nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
 				<a href="/" class="navbar-brand d-flex d-lg-none me-4">
-					<h2 class="text-primary mb-0"><i class="fa fa-calendar rung"></i></h2>
+					<h2 class="text-primary mb-0"><i class="fa fa-calendar"></i></h2>
 				</a>
 				<a href="#" class="sidebar-toggler flex-shrink-0">
 					<i class="fa fa-bars"></i>
 				</a>
-				<div class="navbar-nav nav-link align-items-center ms-auto">
-					<button type="button" class="btn btn-success rounded-pill m-2" onclick="installApp()">
+				<div class="navbar-nav align-items-center ms-auto">
+					<button type="button" class="btn btn-success rounded-pill m-2" onclick="installApp()" style="display: none;" id="btnn">
 						<i class="fa fa-download fa-bounce"></i>
 						Install App
 					</button>
+					<div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-bell rung me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0" data-bs-popper="none">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Update PWA</h6>
+                                <small>26/02/2023</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">End building apps</h6>
+                                <small>25/02/2023</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Start building apps</h6>
+                                <small>23/02/2023</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                        </div>
+                    </div>
 				</div>
 			</nav>
 			<!-- Navbar End -->

@@ -74,6 +74,7 @@ function getSavedValue(v) {
 
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
+	document.getElementById('btnn').removeAttribute("style")
     deferredPrompt = e;
 });
 
