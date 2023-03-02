@@ -37,8 +37,7 @@
 					<h3 class="text-primary">HUPH Schedule<sup>β</sup></h3>
 				</a>
 				<div class="navbar-nav w-100">
-					<a href="/" class="nav-item nav-link active"><i class="fa fa-calendar me-2"></i>My Schedule</a>
-					<a href="#" id="installApp" class="nav-item nav-link"><i class="fa fa-download fa-bounce me-2"></i>Install App</a>
+					<a href="/" class="nav-item nav-link active"><i class="fa fa-calendar rung me-2"></i>My Schedule</a>
 					<a href="donate.html" class="nav-item nav-link"><i class="fas fa-donate me-2"></i>Donate</a>
 					<a href="https://www.facebook.com/ITC.HUPH" target="_blank" class="nav-item nav-link"><i class="fa fa-users me-2"></i>Community</a>
 				</div>
@@ -51,38 +50,16 @@
 			<!-- Navbar Start -->
 			<nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
 				<a href="/" class="navbar-brand d-flex d-lg-none me-4">
-					<h2 class="text-primary mb-0"><i class="fa fa-calendar"></i></h2>
+					<h2 class="text-primary mb-0"><i class="fa fa-calendar rung"></i></h2>
 				</a>
 				<a href="#" class="sidebar-toggler flex-shrink-0">
 					<i class="fa fa-bars"></i>
 				</a>
-				<form class="d-none d-md-flex ms-4">
-					<input class="form-control border-0" type="search" placeholder="Search">
-				</form>
-				<div class="navbar-nav align-items-center ms-auto">
-					<div class="nav-item dropdown">
-						<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-							<i class="fa fa-bell rung me-lg-2"></i>
-							<span class="d-none d-lg-inline-flex">Notification</span>
-						</a>
-						<div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-							<a href="#" class="dropdown-item">
-								<h6 class="fw-normal mb-0">Cập nhật PWA</h6>
-								<small>26/2/2023</small>
-							</a>
-							<hr class="dropdown-divider">
-							<a href="#" class="dropdown-item">
-								<h6 class="fw-normal mb-0">Hoàn thành ứng dụng</h6>
-								<small>25/2/2023</small>
-							</a>
-							<hr class="dropdown-divider">
-							<a href="#" class="dropdown-item">
-								<h6 class="fw-normal mb-0">Bắt đầu xây ứng dụng</h6>
-								<small>23/2/2023</small>
-							</a>
-							<hr class="dropdown-divider">
-						</div>
-					</div>
+				<div class="navbar-nav nav-link align-items-center ms-auto">
+					<button type="button" class="btn btn-success rounded-pill m-2" onclick="installApp()">
+						<i class="fa fa-download fa-bounce"></i>
+						Install App
+					</button>
 				</div>
 			</nav>
 			<!-- Navbar End -->
