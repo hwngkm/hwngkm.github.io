@@ -41,12 +41,10 @@ if(hours >= 4 && hours <= 12){
 async function registerSW() {
 	if ("serviceWorker" in navigator) {
 		try {
-			await navigator.serviceWorker.register("./sw.js");
+			await navigator.serviceWorker.register("sw.js");
 		} catch (e) {
 			console.log('SW install fail');
 		}
-	} else {
-		console.log('error');
 	}
 }
 
