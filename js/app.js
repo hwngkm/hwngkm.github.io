@@ -1,15 +1,11 @@
-if (localStorage.getItem('csvData') == null) {
-	var xhttp = new XMLHttpRequest();
-	xhttp.open("GET", "lich.csv", false);
-	xhttp.send();
-	if (xhttp.status === 200) {
-		var csvData = xhttp.responseText;
-		localStorage.setItem('csvData', csvData);
-	} else {
-		document.getElementById('noti').innerHTML = 'ĐÃ XẢY RA LỖI, VUI LÒNG THỬ LẠI';
-	}
+var xhttp = new XMLHttpRequest();
+xhttp.open("GET", "lich.csv", false);
+xhttp.send();
+if (xhttp.status === 200) {
+	var csvData = xhttp.responseText;
+	localStorage.setItem('csvData', csvData);
 } else {
-	var csvData = localStorage.getItem('csvData');
+	document.getElementById('noti').innerHTML = 'ĐÃ XẢY RA LỖI, VUI LÒNG THỬ LẠI';
 }
 
 let csvData11, csvData12 = ''
