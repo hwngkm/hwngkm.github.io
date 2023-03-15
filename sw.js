@@ -1,29 +1,51 @@
-const cacheName = "pwa-conf-v1";
-const staticAssets = [
-  "/",
-  "index.html",
-  "donate.html",
-  "js/app.js",
-  "js/main.js",
-  "css/style.css",
-  "css/bootstrap.min.css",
-  "css/bootstrap.min.css",
-  "lib/waypoints/waypoints.min.js",
-  "lib/tempusdominus/js/moment.min.js",
-  "lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"
-];
 
-self.addEventListener("install", async (event) => {
-  const cache = await caches.open(cacheName);
-  await cache.addAll(staticAssets);
-});
-self.addEventListener("fetch", (event) => {
-  const req = event.request;
-  event.respondWith(cacheFirst(req));
+const CACHE = "pwabuilder-offline";
+const offlineFallbackPage = "index.html";
+self.addEventListener("install", function (event) {
+  console.log("[PWA Builder] Install Event processing");
+
+  event.waitUntil(
+    caches.open(CACHE).then(function (cache) {
+      console.log("[PWA Builder] Cached offline page during install");
+      
+      return cache.add(offlineFallbackPage);
+    })
+  );
 });
 
-async function cacheFirst(req) {
-  const cache = await caches.open(cacheName);
-  const cachedResponse = await cache.match(req);
-  return cachedResponse || fetch(req);
+self.addEventListener("fetch", function (event) {
+  if (event.request.method !== "GET") return;
+
+  event.respondWith(
+    fetch(event.request)
+      .then(function (response) {
+        console.log("[PWA Builder] add page to offline cache: " + response.url);
+
+        event.waitUntil(updateCache(event.request, response.clone()));
+
+        return response;
+      })
+      .catch(function (error) {        
+        console.log("[PWA Builder] Network request Failed. Serving content from cache: " + error);
+        return fromCache(event.request);
+      })
+  );
+});
+
+function fromCache(request) {
+  return caches.open(CACHE).then(function (cache) {
+    return cache.match(request).then(function (matching) {
+      if (!matching || matching.status === 404) {
+        return Promise.reject("no-match");
+      }
+
+      return matching;
+    });
+  });
+}
+
+function updateCache(request, response) {
+  return caches.open(CACHE).then(function (cache) {
+    return cache.put(request, response);
+  });
 }
