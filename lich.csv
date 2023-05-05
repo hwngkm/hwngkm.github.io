@@ -49,12 +49,14 @@ HUPH  C103 - 96,Sáng,,,,,,"Thời gian:8h - 12h10
  Lớp tín chỉ: ThSYTCC26-1B_2 -(200 sv)_800102703_2_2022-2023 1
  Giảng viên: Lê Tự Hoàng
  Sĩ số: 59",,,,
-HUPHC110 - 160,Sáng,,,,,"Thời gian:8h - 11h20
+HUPHC110 - 160,Sáng,,,,"Thời gian: 8h00
+Lớp: Kỹ năng mềm","Thời gian:8h - 11h20
  Học phần: Dược lý
  Lớp tín chỉ: CNCQKTPHCN3-1A1 -(0 sv)_700710602_2_2022-2023 1
  Giảng viên: Phạm Thị Huyền Chang
  Sĩ số: 123",,,,,
-,Chiều,,,,,,,,,,
+,Chiều,,,,"Thời gian: 8h00
+Lớp: Kỹ năng mềm",,,,,,
 ,Tối,,,,,,,,,,
 "HUPH
  C112 - 24",Sáng,,,,"Thời gian:8h - 12h10
@@ -122,7 +124,7 @@ HUPHC204 - 64,Sáng,,,,,,,,,,
 ,Chiều,,,,"Thời gian:13h00 - 15h30
  Học phần: Tiếng Anh 2
  Lớp tín chỉ: CNCQDD6-1A1 -(60 sv)_700101102_2_2022-2023 1 Lớp A
- Giảng viên: Đỗ Thị Thu Trang
+ Giảng viên: Nguyễn Tuyết Mai
  Sĩ số: 32",,,,,,
 ,Tối,,,,,,,,,,
 HUPHC205 - 64,Sáng,,,,,,,,,,
@@ -220,11 +222,7 @@ Sĩ số:",,,,,
  Học phần: Tin học đại cương
  Lớp tín chỉ: CNVLVHKTXNYH5-1B1 -(60 sv)_700102903_2_2022-2023 1
  Giảng viên: Nguyễn Duy Tiến
- Sĩ số: 1","Thời gian:9h00
-Học phần:Thi Triệu chứng  – Điều trị  học cơ bản Ngoại khoa, Sản khoa ( lý thuyết)
-Lớp:CNVLVHDD2-1B
-Giảng viên: TTĐBCL&KT
-Sĩ số:",,,
+ Sĩ số: 1",,,,
 ,Chiều,,,,"Thời gian:13h00 - 16h20
  Học phần: Ngôn ngữ lập trình
  Lớp tín chỉ: CNCQKHDL1 -(60 sv)_700901003_2_2022-2023 1
@@ -350,37 +348,9 @@ Sĩ số:","Thời gian:8h - 12h10
  Sĩ số: 21",,,,,
 ,Tối,,,,,,,,,,
 "HUPH C605
-Phòng thực hành Giải phẫu - Sinh lý học",Sáng,,,,,,"Thời gian:8h - 12h10
- Học phần: Giải phẫu - Sinh lý học
- Lớp tín chỉ: CNCQCTXH3-1A -(13 sv)_700100104_2_2022-2023 1
- Giảng viên: Nguyễn Minh Toàn
- Sĩ số: 2","Thời gian:8h - 12h10
- Học phần: Giải phẫu - Sinh lý học
- Lớp tín chỉ: CNCQCTXH3-1A -(13 sv)_700100104_2_2022-2023 1
- Giảng viên: Nguyễn Minh Toàn
- Sĩ số: 2",,,
-,Chiều,,,,,,"Thời gian:13h00 - 17h10
- Học phần: Giải phẫu - Sinh lý học
- Lớp tín chỉ: CNCQCTXH3-1A -(13 sv)_700100104_2_2022-2023 1
- Giảng viên: Nguyễn Minh Toàn
- Sĩ số: 2","Thời gian:13h00 - 17h10
- Học phần: Giải phẫu - Sinh lý học
- Lớp tín chỉ: CNCQCTXH3-1A -(13 sv)_700100104_2_2022-2023 1
- Giảng viên: Nguyễn Minh Toàn
- Sĩ số: 2",,,
-,Tối,,,,,"Thời gian:17h30 - 20h50
- Học phần: Giải phẫu - Sinh lý học
- Lớp tín chỉ: CNCQCTXH3-1A -(13 sv)_700100104_2_2022-2023 1
- Giảng viên: Nguyễn Minh Toàn
- Sĩ số: 2","Thời gian:17h30 - 20h50
- Học phần: Giải phẫu - Sinh lý học
- Lớp tín chỉ: CNCQCTXH3-1A -(13 sv)_700100104_2_2022-2023 1
- Giảng viên: Nguyễn Minh Toàn
- Sĩ số: 2","Thời gian:17h30 - 20h50
- Học phần: Giải phẫu - Sinh lý học
- Lớp tín chỉ: CNCQCTXH3-1A -(13 sv)_700100104_2_2022-2023 1
- Giảng viên: Nguyễn Minh Toàn
- Sĩ số: 2",,,
+Phòng thực hành Giải phẫu - Sinh lý học",Sáng,,,,,,,,,,
+,Chiều,,,,,,,,,,
+,Tối,,,,,,,,,,
 "HUPH C606
 Phòng thực hành Giải phẫu - Sinh lý học",Sáng,,,,,,,,,,
 ,Chiều,,,,,,,,,,
