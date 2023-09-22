@@ -1,87 +1,95 @@
-(function ($) {
-	"use strict";
-	// Spinner
-	var spinner = function () {
-		setTimeout(function () {
-			if ($('#spinner').length > 0) {
-				$('#spinner').removeClass('show');
-			}
-		}, 1);
-	};
-	spinner();
-	// Sidebar Toggler
-	$('.sidebar-toggler').click(function () {
-		$('.sidebar, .content').toggleClass("open");
-		return false;
-	});
-	// Progress Bar
-	$('.pg-bar').waypoint(function () {
-		$('.progress .progress-bar').each(function () {
-			$(this).css("width", $(this).attr("aria-valuenow") + '%');
-		});
-	}, {offset: '80%'});
-	// Calender
-	$('#calender').datetimepicker({
-		inline: true,
-		format: 'L'
-	});
+(function($) {
+    "use strict";
+    
+    // Ẩn spinner sau 1ms
+    setTimeout(function() {
+        if ($("#spinner").length > 0) {
+            $("#spinner").removeClass("show");
+        }
+    }, 1);
+    
+    // Xử lý khi click nút toggle sidebar
+    $(".sidebar-toggler").click(function() {
+        $(".sidebar, .content").toggleClass("open");
+        return false;
+    });
+    
+    // Xử lý thanh tiến trình
+    $(".pg-bar").waypoint(function() {
+        $(".progress .progress-bar").each(function() {
+            $(this).css("width", $(this).attr("aria-valuenow") + "%");
+        });
+    }, {
+        offset: "80%"
+    });
+    
+    // Khởi tạo datetimepicker cho #calender
+    $("#calender").datetimepicker({
+        inline: true,
+        format: "L"
+    });
 })(jQuery);
 
-var loi_chuc = document.getElementById('loi_chuc');
+// Xác định thông điệp dựa trên thời gian
+var loi_chuc = document.getElementById("loi_chuc");
 var objDate = new Date();
 var hours = objDate.getHours();
-if(hours >= 4 && hours <= 12){
-	loi_chuc.innerHTML = 'Chúc bạn có một buổi sáng tốt lành và tràn đầy năng lượng';
-} else if (hours > 12 && hours <= 19) {
-	loi_chuc.innerHTML = 'Chúc bạn có một buổi chiều làm việc và học tập vui vẻ';
-} else {
-	loi_chuc.innerHTML = 'Chúc bạn có một buổi tối thư giãn sau ngày dài làm việc';
-}
+loi_chuc.innerHTML = (4 <= hours && hours <= 12) ? "Chúc bạn có một buổi sáng tốt lành và tràn đầy năng lượng" : 
+                     (12 < hours && hours <= 19) ? "Chúc bạn có một buổi chiều làm việc và học tập vui vẻ" : 
+                     "Chúc bạn có một buổi tối thư giãn sau ngày dài làm việc";
 
+// Đăng ký Service Worker
 async function registerSW() {
-	if ("serviceWorker" in navigator) {
-		try {
-			await navigator.serviceWorker.register("sw.js");
-		} catch (e) {
-			console.log('SW install fail');
-		}
-	}
+    if ("serviceWorker" in navigator) {
+        try {
+            await navigator.serviceWorker.register("sw.js");
+        } catch (e) {
+            console.log("SW install fail");
+        }
+    }
 }
 
-window.addEventListener("load", (event) => {
-	registerSW();
-	exportData(document.getElementById('chose').value);
-	if (getSavedValue().length > 0) {
-		localStorage.setItem('chose', '');
-	}
+// Lưu giá trị vào localStorage và gọi hàm exportData
+function saveValue(element) {
+    var id = element.id;
+    var value = element.value;
+    localStorage.setItem(id, value);
+    exportData(value);
+}
+
+// Lấy giá trị đã lưu từ localStorage
+function getSavedValue(key) {
+    return localStorage.getItem(key) ? localStorage.getItem(key) : "";
+}
+
+// Xử lý khi trang web được tải
+window.addEventListener("load", (e) => {
+    registerSW();
+    var choseValue = document.getElementById("chose").value;
+    if (choseValue) {
+        exportData(choseValue);
+    }
 });
 
+// Gán giá trị cho #chose từ localStorage
 document.getElementById("chose").value = getSavedValue("chose");
-function saveValue(e) {
-	var id = e.id;
-	var val = e.value;
-	localStorage.setItem(id, val);
-	exportData(val)
-}
-function getSavedValue(v) {
-	if (!localStorage.getItem(v)) {
-		return '';
-	}
-	return localStorage.getItem(v);
-}
 
+// Xử lý cài đặt ứng dụng
 let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-	document.getElementById('btnn').removeAttribute("style")
-    deferredPrompt = e;
-});
 
 function installApp() {
-    if (deferredPrompt !== null) {
+    var e;
+    if (null !== deferredPrompt) {
         deferredPrompt.prompt();
-        const { outcome } = deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
+        ({ outcome: e } = deferredPrompt.userChoice);
+        if ("accepted" === e) {
             deferredPrompt = null;
         }
     }
 }
+
+// Sự kiện trước khi cài đặt ứng dụng
+window.addEventListener("beforeinstallprompt", (e) => {
+    document.getElementById("btnn").removeAttribute("style");
+    deferredPrompt = e;
+});
