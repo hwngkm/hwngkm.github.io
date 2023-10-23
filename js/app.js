@@ -9,7 +9,8 @@ if (xhttp.open("GET", "lich.csv", false), xhttp.send(), 200 === xhttp.status) {
     // Xử lý dữ liệu CSV
     csvData = csvData.replace(/GDTC_/g, "HUPHTT")
                      .replace(/, /g, "***")
-                     .replace(/PKĐK/g, "HUPHPK");
+                     .replace(/PKĐK/g,
+                      "HUPHPK");
 
     var slist = csvData.split("HUPH").slice(1).map(e => {
         let t = e.split(",");
