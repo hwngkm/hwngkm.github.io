@@ -84,7 +84,8 @@ function exportData(e) {
                     } else if (c) {
                         o = "Tối";
                     }
-                    l.push([tn, o, h, g]);
+                    let timeString = `${o} ${n[tn]}`;
+                    l.push([moment().day(tn).format('dddd'), moment(h, 'HH:mm').format('hh:mm A'), g]);
                 }
             }
         }
@@ -92,16 +93,16 @@ function exportData(e) {
             document.getElementById("noti").innerHTML = "Bạn hiện không có lịch học, quẩy thôi 😄";
             document.getElementById("result").innerHTML = "";
         } else {
-            l.sort((e, t) => e[0] - t[0]);
+            l.sort((e, t) => moment(e[1], 'hh:mm A') - moment(t[1], 'hh:mm A'));
             let p = "";
             for (let d of l) {
                 p += `<div class="d-flex align-items-center border-bottom py-3 alert alert-${randomColor()}">
                         <div class="w-100 ms-3">
                             <div class="d-flex w-100 justify-content-between">
-                                <h3 class="mb-0">${d[1]} ${n[d[0]]}</h3>
-                                <small style="margin-right: 1rem;">Giảng đường <h3>${d[2]}</h3></small>
+                                <h3 class="mb-0">${d[0]}</h3>
+                                <small style="margin-right: 1rem;">Giảng đường <h3>${d[1]}</h3></small>
                             </div>
-                            <span>${d[3]}</span>
+                            <span>${d[2]}</span>
                         </div>
                     </div>`;
             }
