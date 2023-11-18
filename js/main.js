@@ -1,23 +1,20 @@
-import $ from "jquery";
-import { registerSW, saveValue, getSavedValue } from "./utils";
-
-$(function() {
+(function($) {
     "use strict";
-
-    // Hide spinner after 1ms
+    
+    // Ẩn spinner sau 1ms
     setTimeout(function() {
         if ($("#spinner").length > 0) {
             $("#spinner").removeClass("show");
         }
     }, 1);
-
-    // Handle click event on sidebar toggle button
-    $(".sidebar-toggler").on("click", function() {
+    
+    // Xử lý khi click nút toggle sidebar
+    $(".sidebar-toggler").click(function() {
         $(".sidebar, .content").toggleClass("open");
         return false;
     });
-
-    // Handle progress bar
+    
+    // Xử lý thanh tiến trình
     $(".pg-bar").waypoint(function() {
         $(".progress .progress-bar").each(function() {
             $(this).css("width", $(this).attr("aria-valuenow") + "%");
@@ -25,54 +22,74 @@ $(function() {
     }, {
         offset: "80%"
     });
-
-    // Initialize datetimepicker for #calender
+    
+    // Khởi tạo datetimepicker cho #calender
     $("#calender").datetimepicker({
         inline: true,
         format: "L"
     });
+})(jQuery);
 
-    // Set message based on time
-    const loi_chuc = document.getElementById("loi_chuc");
-    const objDate = new Date();
-    const hours = objDate.getHours();
-    loi_chuc.innerHTML = (4 <= hours && hours <= 12) ? "Chúc bạn có một buổi sáng tốt lành và tràn đầy năng lượng" :
-        (12 < hours && hours <= 19) ? "Chúc bạn có một buổi chiều làm việc và học tập vui vẻ" :
-        "Chúc bạn có một buổi tối thư giãn sau ngày dài làm việc";
+// Xác định thông điệp dựa trên thời gian
+var loi_chuc = document.getElementById("loi_chuc");
+var objDate = new Date();
+var hours = objDate.getHours();
+loi_chuc.innerHTML = (4 <= hours && hours <= 12) ? "Chúc bạn có một buổi sáng tốt lành và tràn đầy năng lượng" : 
+                     (12 < hours && hours <= 19) ? "Chúc bạn có một buổi chiều làm việc và học tập vui vẻ" : 
+                     "Chúc bạn có một buổi tối thư giãn sau ngày dài làm việc";
 
-    // Register Service Worker
-    registerSW();
-
-    // Save value to localStorage and call exportData
-    $(".save-value").on("input", function() {
-        const id = $(this).attr("id");
-        const value = $(this).val();
-        saveValue(id, value);
-    });
-
-    // Get saved value from localStorage
-    $(".saved-value").each(function() {
-        const key = $(this).attr("id");
-        const savedValue = getSavedValue(key);
-        $(this).val(savedValue);
-    });
-
-    // Handle install app
-    let deferredPrompt;
-    function installApp() {
-        if (deferredPrompt !== null) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then(choiceResult => {
-                if (choiceResult.outcome === "accepted") {
-                    deferredPrompt = null;
-                }
-            });
+// Đăng ký Service Worker
+async function registerSW() {
+    if ("serviceWorker" in navigator) {
+        try {
+            await navigator.serviceWorker.register("sw.js");
+        } catch (e) {
+            console.log("SW install fail");
         }
     }
+}
 
-    // Before install prompt event
-    window.addEventListener("beforeinstallprompt", e => {
-        $("#btnn").removeAttr("style");
-        deferredPrompt = e;
-    });
+// Lưu giá trị vào localStorage và gọi hàm exportData
+function saveValue(element) {
+    var id = element.id;
+    var value = element.value;
+    localStorage.setItem(id, value);
+    exportData(value);
+}
+
+// Lấy giá trị đã lưu từ localStorage
+function getSavedValue(key) {
+    return localStorage.getItem(key) ? localStorage.getItem(key) : "";
+}
+
+// Xử lý khi trang web được tải
+window.addEventListener("load", (e) => {
+    registerSW();
+    var choseValue = document.getElementById("chose").value;
+    if (choseValue) {
+        exportData(choseValue);
+    }
+});
+
+// Gán giá trị cho #chose từ localStorage
+document.getElementById("chose").value = getSavedValue("chose");
+
+// Xử lý cài đặt ứng dụng
+let deferredPrompt;
+
+function installApp() {
+    var e;
+    if (null !== deferredPrompt) {
+        deferredPrompt.prompt();
+        ({ outcome: e } = deferredPrompt.userChoice);
+        if ("accepted" === e) {
+            deferredPrompt = null;
+        }
+    }
+}
+
+// Sự kiện trước khi cài đặt ứng dụng
+window.addEventListener("beforeinstallprompt", (e) => {
+    document.getElementById("btnn").removeAttribute("style");
+    deferredPrompt = e;
 });
