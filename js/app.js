@@ -1,8 +1,12 @@
 // Tạo đối tượng XMLHttpRequest
-let xhttp = new XMLHttpRequest;
+let xhttp = new XMLHttpRequest();
 
-// Khởi tạo một yêu cầu GET đến tệp "lich.csv" với chế độ đồng bộ
-if (xhttp.open("GET", "lich.csv", false), xhttp.send(), 200 === xhttp.status) {
+// Khởi tạo yêu cầu GET đến tệp "lich.csv" với chế độ đồng bộ
+xhttp.open("GET", "lich.csv", false);
+xhttp.send();
+
+// Kiểm tra trạng thái của yêu cầu
+if (xhttp.status === 200) {
     // Lấy dữ liệu CSV
     let csvData = xhttp.responseText;
 
@@ -15,8 +19,8 @@ if (xhttp.open("GET", "lich.csv", false), xhttp.send(), 200 === xhttp.status) {
         let t = e.split(",");
         let n = t[0].match(/[BCD]|TT|PK/) ? t[0] : "";
         let l = t.slice(2, 9);
-        let r;
-        return [n, l, t.slice(13, 20), t.slice(24, 31)];
+        let r = [n, l, t.slice(13, 20), t.slice(24, 31)];
+        return r;
     });
 } else {
     document.getElementById("noti").innerHTML = "Đã xảy ra lỗi, vui lòng thử lại";
@@ -24,88 +28,90 @@ if (xhttp.open("GET", "lich.csv", false), xhttp.send(), 200 === xhttp.status) {
 
 // Hàm chọn màu ngẫu nhiên
 function randomColor() {
-    let e = ["primary", "secondary", "success", "danger", "warning", "info"];
-    return e[Math.floor(Math.random() * e.length)];
+    let colors = ["primary", "secondary", "success", "danger", "warning", "info"];
+    return colors[Math.floor(Math.random() * colors.length)];
 }
 
 // Hàm xử lý nội dung để hiển thị
-function fill(e) {
-    if (e.includes("thể chất")) {
-        return e.split("--")
-                .filter(e => e.length > 0)
-                .map(e => e.replace('"', "")
-                            .replace("gian:", "gian: ")
-                            .replace(/\r?\n|\r/g, "<br>"))
-                .join("\n");
+function fill(content) {
+    if (content.includes("thể chất")) {
+        return content.split("--")
+                      .filter(e => e.length > 0)
+                      .map(e => e.replace('"', "")
+                                  .replace("gian:", "gian: ")
+                                  .replace(/\r?\n|\r/g, "<br>"))
+                      .join("\n");
     } else {
-        return e.replace("gian:", "gian: ")
-                .replace(/"/g, "")
-                .replace(/\r?\n|\r/g, "<br>")
-                .replace("***", ", ");
+        return content.replace("gian:", "gian: ")
+                      .replace(/"/g, "")
+                      .replace(/\r?\n|\r/g, "<br>")
+                      .replace("***", ", ");
     }
 }
 
 // Hàm lấy kết quả dựa trên radio button được chọn
-function getResultFromRadio(e) {
-    let t = new Date().getDay();
-    let n = "";
-    let l = document.querySelector('input[name="radioOption"]:checked');
-    l && (n = l.value);
-    let r = [];
-    for (let i of e) {
-        if ("0" === n && i[0] === t) {
-            r.push(i);
+function getResultFromRadio(data) {
+    let currentDay = new Date().getDay();
+    let selectedOption = "";
+    let radio = document.querySelector('input[name="radioOption"]:checked');
+    if (radio) {
+        selectedOption = radio.value;
+    }
+    let result = [];
+    for (let entry of data) {
+        if (selectedOption === "0" && entry[0] === currentDay) {
+            result.push(entry);
         }
     }
-    return r.length === 0 ? e : r;
+    return result.length === 0 ? data : result;
 }
 
 // Hàm xuất dữ liệu lịch học dựa trên môn học
-function exportData(e) {
-    if (e) {
-        let t = [0, 1, 2, 3, 4, 5, 6];
-        let n = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
-        let l = [];
-        for (var r of slist) {
-            for (var i of t) {
-                let tn = i > 6 ? 0 : i + 1;
-                let a = r[1][i].includes(e);
-                let s = r[2][i].includes(e);
-                let c = r[3][i].includes(e);
-                if (a || s || c) {
-                    let h = r[0];
-                    let g = fill(a ? r[1][i] : s ? r[2][i] : r[3][i]);
-                    let o;
-                    if (a) {
-                        o = "Sáng";
-                    } else if (s) {
-                        o = "Chiều";
-                    } else if (c) {
-                        o = "Tối";
+function exportData(selectedClass) {
+    if (selectedClass) {
+        let weekdays = [0, 1, 2, 3, 4, 5, 6];
+        let dayNames = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+        let filteredData = [];
+        for (var entry of slist) {
+            for (var day of weekdays) {
+                let dayNumber = day > 6 ? 0 : day + 1;
+                let hasMorningClass = entry[1][day].includes(selectedClass);
+                let hasAfternoonClass = entry[2][day].includes(selectedClass);
+                let hasEveningClass = entry[3][day].includes(selectedClass);
+                if (hasMorningClass || hasAfternoonClass || hasEveningClass) {
+                    let classType = hasMorningClass ? entry[1][day] : hasAfternoonClass ? entry[2][day] : entry[3][day];
+                    let formattedContent = fill(classType);
+                    let timeOfDay;
+                    if (hasMorningClass) {
+                        timeOfDay = "Sáng";
+                    } else if (hasAfternoonClass) {
+                        timeOfDay = "Chiều";
+                    } else if (hasEveningClass) {
+                        timeOfDay = "Tối";
                     }
-                    l.push([tn, o, h, g]);
+                    filteredData.push([dayNumber, timeOfDay, entry[0], formattedContent]);
                 }
             }
         }
-        if (l.length === 0) {
+        if (filteredData.length === 0) {
             document.getElementById("noti").innerHTML = "Bạn hiện không có lịch học, quẩy thôi 😄";
             document.getElementById("result").innerHTML = "";
         } else {
-            l.sort((e, t) => e[0] - t[0]);
-            let p = "";
-            for (let d of l) {
-                p += `<div class="d-flex align-items-center border-bottom py-3 alert alert-${randomColor()}">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h3 class="mb-0">${d[1]} ${n[d[0]]}</h3>
-                                <small style="margin-right: 1rem;">Giảng đường <h3>${d[2]}</h3></small>
-                            </div>
-                            <span>${d[3]}</span>
-                        </div>
-                    </div>`;
+            filteredData.sort((a, b) => a[0] - b[0]);
+            let resultHTML = "";
+            for (let item of filteredData) {
+                resultHTML += `<div class="d-flex align-items-center border-bottom py-3 alert alert-${randomColor()}">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h3 class="mb-0">${item[1]} ${dayNames[item[0]]}</h3>
+                                            <small style="margin-right: 1rem;">Giảng đường <h3>${item[2]}</h3></small>
+                                        </div>
+                                        <span>${item[3]}</span>
+                                    </div>
+                                </div>`;
             }
             document.getElementById("noti").innerHTML = "Dưới đây là lịch học của bạn";
-            document.getElementById("result").innerHTML = p;
+            document.getElementById("result").innerHTML = resultHTML;
         }
     }
 }
